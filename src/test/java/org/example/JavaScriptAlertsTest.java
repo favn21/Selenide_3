@@ -1,4 +1,5 @@
 package org.example;
+import api.WebDriverConfig;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -13,8 +14,7 @@ public class JavaScriptAlertsTest {
 
     @Test
     public void testJavaScriptAlerts() {
-        Configuration.browserSize = "1920x1080";
-        Configuration.timeout = 30000;
+        WebDriverConfig.setUp();
 
         Selenide.open("http://the-internet.herokuapp.com/javascript_alerts");
 
@@ -22,24 +22,20 @@ public class JavaScriptAlertsTest {
 
         WebDriver driver = WebDriverRunner.getWebDriver();
         Alert alert = driver.switchTo().alert();
-        String alertText = alert.getText();
 
         alert.accept();
 
         $(By.xpath("//button[text()='Click for JS Confirm']")).click();
         alert = driver.switchTo().alert();
-        alertText = alert.getText();
 
         alert.dismiss();
 
         $(By.xpath("//button[text()='Click for JS Prompt']")).click();
         alert = driver.switchTo().alert();
-        alertText = alert.getText();
+
 
         alert.sendKeys("Hello World");
         alert.accept();
-
-        String resultText = $(By.id("result")).getText();
 
         Selenide.closeWebDriver();
     }
